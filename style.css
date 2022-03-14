@@ -1,0 +1,16 @@
+#tile {
+    width: 200px;
+    height: 400px;
+    display: flex;
+    flex-wrap: wrap;
+    background-color: black;
+}
+
+#tile div {
+    height: 20px;
+    width: 20px;
+}
+
+.shape {
+    background-color: blue;
+}
