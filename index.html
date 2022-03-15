@@ -14,17 +14,24 @@
     <h3>Score:<span id="score"></span></h3>
 
     <button id="startBtn">Start</button>
+    <div class="container">
+        <div id="tile">
+            <script>
+                for (x = 0; x < 200; x++) {
+                    var tile = document.createElement('div');
+                    document.getElementById('tile').appendChild(tile);
+                }
+            </script>
+            <script>
+                for (x = 0; x < 10; x++) {
+                    var taken = document.createElement('div');
+                    taken.className = "taken"
+                    document.getElementById('tile').appendChild(taken);
+                }
+            </script>
+        </div>
 
-    <div id="tile">
-        <script>
-            for (x = 0; x < 200; x++) {
-                var tile = document.createElement('div');
-                tile.className = "tiley";
-                document.getElementById('tile').appendChild(tile);
-            }
-        </script>
     </div>
-
 </body>
 
 </html>

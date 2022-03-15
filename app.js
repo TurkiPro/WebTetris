@@ -5,6 +5,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const startBtn = document.querySelector('#startBtn')
     const tile = document.querySelector('#tile');
     let squares = Array.from(document.querySelectorAll('#tile div'));
+    const taken = document.querySelector('#taken');
+    let stopSquares = Array.from(document.querySelectorAll('#tile div'));
+
 
     //Creating the shapes using arrays
     const tShape = [
@@ -55,24 +58,39 @@ document.addEventListener('DOMContentLoaded', () => {
     function draw() {
         current.forEach(index => {
             squares[currentPosition + index].classList.add('shape');
-        })
+        });
     }
 
     //remove or undraw the shape in rotation
     function undraw() {
         current.forEach(index => {
             squares[currentPosition + index].classList.remove('shape');
-        })
+        });
     };
 
     //Moving the shapes across the tiles every second
-    timerId = setInterval(moveDown, 1000);
+    timerId = setInterval(moveDown, 100);
 
     function moveDown() {
         undraw();
         currentPosition += width;
         draw();
+        stopMove();
     }
+
+    //stopMove function is used to stop the shapes 
+    //at the bottom of the tiles or when they touch another shape
+    function stopMove() {
+        if (current.some(index => stopSquares[currentPosition + index + width].classList.contains('taken'))) {
+            current.forEach(index => stopSquares[currentPosition + index].classList.add('taken'));
+
+            random = Math.floor(Math.random() * shapesArray.length);
+            current = shapesArray[random][currentRotation];
+            currentPosition = 4;
+            draw();
+        }
+    }
+
 
 
 });
