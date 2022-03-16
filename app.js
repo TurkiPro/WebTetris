@@ -69,8 +69,21 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     //Moving the shapes across the tiles every second
-    timerId = setInterval(moveDown, 100);
+    timerId = setInterval(moveDown, 1000);
 
+    //assign functions to key codes
+    function control(e) {
+        if (e.keyCode === 37) {
+            moveLeft();
+        } else if (e.keyCode === 39) {
+            moveRight();
+        } else if (e.keyCode === 40) {
+            moveDown();
+        }
+    }
+    document.addEventListener('keyup', control);
+
+    //Make shapes move down the grid until they reach the bottom of the grid
     function moveDown() {
         undraw();
         currentPosition += width;
@@ -91,6 +104,34 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
+
+    //Move the shapes left, but stop on the left edge of the grid
+    function moveLeft() {
+        undraw();
+        const isAleftEdge = current.some(index => (currentPosition + index) % width === 0);
+
+        if (!isAleftEdge) { currentPosition -= 1 }
+
+        if (current.some(index => stopSquares[currentPosition + index].classList.contains('taken'))) {
+            currentPosition += 1;
+        }
+
+        draw();
+    }
+
+    //Move the shapes right, but stop on the right edge of the grid
+    function moveRight() {
+        undraw();
+        const isArightEdge = current.some(index => (currentPosition + index) % width === width - 1);
+
+        if (!isArightEdge) { currentPosition += 1 }
+
+        if (current.some(index => stopSquares[currentPosition + index].classList.contains('taken'))) {
+            currentPosition -= 1;
+        }
+
+        draw();
+    }
 
 
 });
