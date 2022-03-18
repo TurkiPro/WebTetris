@@ -75,6 +75,8 @@ document.addEventListener('DOMContentLoaded', () => {
     function control(e) {
         if (e.keyCode === 37) {
             moveLeft();
+        } else if (e.keyCode === 38) {
+            rotate();
         } else if (e.keyCode === 39) {
             moveRight();
         } else if (e.keyCode === 40) {
@@ -130,6 +132,20 @@ document.addEventListener('DOMContentLoaded', () => {
             currentPosition -= 1;
         }
 
+        draw();
+    }
+
+    //roteting the shapes
+    function rotate() {
+        undraw();
+        currentRotation++;
+
+        //if the current rotation reaches 4, then go back to rotation 0
+        if (currentRotation === current.length) {
+            currentRotation = 0;
+        }
+
+        current = shapesArray[random][currentRotation];
         draw();
     }
 
