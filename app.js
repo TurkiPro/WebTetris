@@ -7,6 +7,11 @@ document.addEventListener('DOMContentLoaded', () => {
     let squares = Array.from(document.querySelectorAll('#tile div'));
     const taken = document.querySelector('#taken');
     let stopSquares = Array.from(document.querySelectorAll('#tile div'));
+    const displaySquares = document.querySelectorAll('#next-display div');
+    const displayWidth = 4;
+    let displayIndex = 0;
+    let nextRandom = 0;
+    let timerId;
 
 
     //Creating the shapes using arrays
@@ -99,10 +104,12 @@ document.addEventListener('DOMContentLoaded', () => {
         if (current.some(index => stopSquares[currentPosition + index + width].classList.contains('taken'))) {
             current.forEach(index => stopSquares[currentPosition + index].classList.add('taken'));
 
-            random = Math.floor(Math.random() * shapesArray.length);
+            random = nextRandom;
+            nextRandom = Math.floor(Math.random() * shapesArray.length);
             current = shapesArray[random][currentRotation];
             currentPosition = 4;
             draw();
+            displayShape();
         }
     }
 
@@ -148,6 +155,41 @@ document.addEventListener('DOMContentLoaded', () => {
         current = shapesArray[random][currentRotation];
         draw();
     }
+
+
+    //show the next shape to be drawn in the next-dsplay
+    const nextShape = [
+        [1, displayWidth, displayWidth + 1, displayWidth + 2], //tShape
+        [0, 1, displayWidth, displayWidth + 1], //sqrShape
+        [1, displayWidth + 1, displayWidth * 2 + 1, displayWidth * 3 + 1], //iShape
+        [0, displayWidth, displayWidth + 1, displayWidth * 2 + 1], //zShape
+        [1, displayWidth + 1, displayWidth * 2 + 1, 2] //lShape
+    ];
+
+
+    function displayShape() {
+        //remove trace of any shape from tiles
+        displaySquares.forEach(square => {
+            square.classList.remove('shape');
+        });
+        nextShape[nextRandom].forEach(index => {
+            displaySquares[displayIndex + index].classList.add('shape');
+        });
+    }
+
+
+    //Create a function for the start/pause button
+    startBtn.addEventListener('click', () => {
+        if (timerId) {
+            clearInterval(timerId);
+            timerId = null;
+        } else {
+            draw();
+            timerId = setInterval(moveDown, 1000);
+            nextRandom = Math.floor(Math.random() * shapesArray.length);
+            displayShape();
+        }
+    });
 
 
 });

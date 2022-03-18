@@ -1,3 +1,8 @@
+.container {
+    display: flex;
+}
+
+
 #tile {
     width: 200px;
     height: 400px;
@@ -15,3 +20,16 @@
     background-color: blue;
 }
 
+#next-display {
+    margin-left: 50px;
+    width: 80px;
+    height: 80px;
+    flex-wrap: wrap;
+    display: flex;
+    background-color: black;
+}
+
+#next-display div {
+    width: 20px;
+    height: 20px;
+}
