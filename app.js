@@ -12,6 +12,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let displayIndex = 0;
     let nextRandom = 0;
     let timerId;
+    let score = 10;
 
 
     //Creating the shapes using arrays
@@ -74,7 +75,7 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     //Moving the shapes across the tiles every second
-    timerId = setInterval(moveDown, 1000);
+    //timerId = setInterval(moveDown, 1000);
 
     //assign functions to key codes
     function control(e) {
@@ -110,6 +111,8 @@ document.addEventListener('DOMContentLoaded', () => {
             currentPosition = 4;
             draw();
             displayShape();
+            scoreBoard();
+            gameOver();
         }
     }
 
@@ -190,6 +193,33 @@ document.addEventListener('DOMContentLoaded', () => {
             displayShape();
         }
     });
+
+    //Score board
+    function scoreBoard() {
+        for (let i = 0; i < 199; i += width) {
+            const row = [i, i + 1, i + 2, i + 3, i + 4, i + 5, i + 6, i + 7, i + 8, i + 9];
+
+            if (row.every(index => squares[index].classList.contains('taken'))) {
+                score += 10;
+                scoreDisplay.innerHTML = score;
+                row.forEach(index => {
+                    squares[index].classList.remove('taken');
+                    squares[index].classList.remove('shape');
+                });
+                const squaresRemoved = squares.splice(i, width);
+                squares = squaresRemoved.concat(squares);
+                squares.forEach(cell => tile.appendChild(cell));
+            }
+        }
+    }
+
+    //Game over display
+    function gameOver() {
+        if (current.some(index => squares[currentPosition + index].classList.contains('taken'))) {
+            scoreDisplay.innerHTML = 'Game Over';
+            clearInterval(timerId);
+        }
+    }
 
 
 });
